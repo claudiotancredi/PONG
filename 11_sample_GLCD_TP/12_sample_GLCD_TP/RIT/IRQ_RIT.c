@@ -13,6 +13,7 @@
 #include "../GLCD/GLCD.h" 
 #include "../timer/timer.h"
 #include "../adc/adc.h"
+#include <stdio.h>
 
 int paddle_x = 100;
 
@@ -27,8 +28,13 @@ int paddle_x = 100;
 ******************************************************************************/
 
 extern int button;
+extern int record;
+extern int flag_end_game;
+
+int current_score = 0;
 
 void reset_game(void){
+	flag_end_game=0;
 	LCD_Clear(Black);
 	GUI_Text(104, 147, (uint8_t *) "PONG", White, Black);
 	GUI_Text(44, 165, (uint8_t *) "Press KEY1 to start", White, Black);
@@ -36,11 +42,16 @@ void reset_game(void){
 }
 
 void start_game(void){
+	char r[]="";
 	ADC_init();	
 	LCD_DrawGameHBorder(44,147,230,147,30,Black); //Delete text
 	LCD_DrawGameHBorder(0,0,239,0, 5, Red); //Top border
 	LCD_DrawGameVBorders(0, 5,278,235,5,Red); //Side borders
 	LCD_DrawGameHBorder(paddle_x,278,139,278,10,Green); //paddle
+	sprintf(r,"%d", record);
+	GUI_Text(233-9*strlen(r),8,(uint8_t*) r, White, Black);
+	sprintf(r,"%d",current_score);
+	GUI_Text(8,156,(uint8_t*) r, White, Black);
 	init_timer(1, 0x17D7840); /*1 s * 25 MHz = 25*10^6=0x17D7840*/
 	enable_timer(1);
 	return;

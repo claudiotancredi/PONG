@@ -43,6 +43,8 @@ static uint8_t LCD_Code;
 #define  LGDP4535   13 /* 0x4535 */  
 #define  SSD2119    14 /* 3.5 LCD 0x9919 */
 
+extern int ball_position[];
+
 /*******************************************************************************
 * Function Name  : Lcd_Configuration
 * Description    : Configures LCD Control lines
@@ -516,7 +518,7 @@ void LCD_DrawGameVBorders(uint16_t x0, uint16_t y0, uint16_t y1, uint16_t x2, in
 			LCD_SetPoint(x0+j,y0+i,Red);
 		}
 		if (i==156){
-			LCD_DrawGameHBorder(230,157,234,157,5,Green);
+			LCD_DrawGameHBorder(ball_position[0],ball_position[1],ball_position[0]+4,ball_position[1],5,Green);
 		}
 		for (j=0; j<thickness; j++){
 			LCD_SetPoint(x2+j,y0+i,Red);

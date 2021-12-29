@@ -7,7 +7,6 @@
 ** Correlated files:    timer.h
 **--------------------------------------------------------------------------------------------------------
 *********************************************************************************************************/
-#include <string.h>
 #include "lpc17xx.h"
 #include "timer.h"
 #include "../GLCD/GLCD.h" 
@@ -24,6 +23,7 @@ extern uint8_t *text;
 ** Returned value:		None
 **
 ******************************************************************************/
+
 
 void TIMER0_IRQHandler (void)
 {
@@ -73,7 +73,8 @@ void TIMER1_IRQHandler (void)
 		}
 		else{
 			counter=3;
-			init_timer(0, 0x98968 ); 						/* 25ms * 25MHz = 6.25*10^5 = 0x98968 */
+			init_timer(0,0x618A); //1 ms
+			//init_timer(0, 0x98968 ); 						/* 25ms * 25MHz = 6.25*10^5 = 0x98968 */
 	enable_timer(0);
 		}
 	}
