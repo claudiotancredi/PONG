@@ -516,7 +516,7 @@ void LCD_DrawGameVBorders(uint16_t x0, uint16_t y0, uint16_t y1, uint16_t x2, in
 			LCD_SetPoint(x0+j,y0+i,Red);
 		}
 		if (i==156){
-			LCD_DrawGameHBorder(230,157,235,157,5,Green);
+			LCD_DrawGameHBorder(230,157,234,157,5,Green);
 		}
 		for (j=0; j<thickness; j++){
 			LCD_SetPoint(x2+j,y0+i,Red);

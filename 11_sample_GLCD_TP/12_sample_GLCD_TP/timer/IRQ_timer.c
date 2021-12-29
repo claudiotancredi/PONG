@@ -30,8 +30,6 @@ void TIMER0_IRQHandler (void)
 	disable_timer(0);
 	reset_timer(0);
 	ADC_start_conversion();
-	init_timer(0, 0x1312D0 ); 						/* 50ms * 25MHz = 1.25*10^6 = 0x1312D0 */
-	enable_timer(0);
   LPC_TIM0->IR = 1;			/* clear interrupt flag */
   return;
 }
@@ -75,7 +73,7 @@ void TIMER1_IRQHandler (void)
 		}
 		else{
 			counter=3;
-			init_timer(0, 0x1312D0 ); 						/* 50ms * 25MHz = 1.25*10^6 = 0x1312D0 */
+			init_timer(0, 0x98968 ); 						/* 25ms * 25MHz = 6.25*10^5 = 0x98968 */
 	enable_timer(0);
 		}
 	}

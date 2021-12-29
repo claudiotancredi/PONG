@@ -38,9 +38,9 @@ void reset_game(void){
 void start_game(void){
 	ADC_init();	
 	LCD_DrawGameHBorder(44,147,230,147,30,Black); //Delete text
-	LCD_DrawGameHBorder(0,0,240,0, 5, Red); //Top border
+	LCD_DrawGameHBorder(0,0,239,0, 5, Red); //Top border
 	LCD_DrawGameVBorders(0, 5,278,235,5,Red); //Side borders
-	LCD_DrawGameHBorder(paddle_x,278,140,278,10,Green); //paddle
+	LCD_DrawGameHBorder(paddle_x,278,139,278,10,Green); //paddle
 	init_timer(1, 0x17D7840); /*1 s * 25 MHz = 25*10^6=0x17D7840*/
 	enable_timer(1);
 	return;
