@@ -18,6 +18,7 @@ extern void reset_timer( uint8_t timer_num );
 /* IRQ_timer.c */
 extern void TIMER0_IRQHandler (void);
 extern void TIMER1_IRQHandler (void);
+extern void TIMER2_IRQHandler (void);
 
 #endif /* end __TIMER_H */
 /*****************************************************************************

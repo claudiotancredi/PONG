@@ -28,6 +28,8 @@ int ball_movement [] = {-1,+1};
 extern int current_score;
 extern int record;
 int flag_end_game = 0;
+extern int game_status;
+int flag_lost = 0;
 
 /*----------------------------------------------------------------------------
   A/D IRQ: Executed when A/D Conversion is ready (signal from ADC peripheral)
@@ -37,11 +39,19 @@ unsigned short AD_current;
 unsigned short AD_last = 0x7FF;     /* Last converted value               */
 
 void check_border(void){
-	if (ball_position[0]==5 || ball_position[0]==230){
+	if (ball_position[0]==5 || ball_position[0]==230 || ball_position[0]==0 || ball_position[0]==235){
 		ball_movement[0]*=-1;
+		disable_timer(2);
+		reset_timer(2);
+		init_timer(2,1263*45);
+		enable_timer(2);
 	}
 	if (ball_position[1]==5){
 		ball_movement[1]*=-1;
+		disable_timer(2);
+		reset_timer(2);
+		init_timer(2,1263*45);
+		enable_timer(2);
 	}
 	return;
 }
@@ -52,11 +62,28 @@ void check_paddle(void){
 	int ball_center;
 	float dist;
 	if (ball_position[1]==273 && ((ball_position[0]<paddle_x && ball_position[0]+4>=paddle_x) || (ball_position[0]>=paddle_x && ball_position[0]+4<=paddle_x+39) || (ball_position[0]<=paddle_x+39 && ball_position[0]+4>paddle_x+39))){
-		paddle_center=paddle_x+19;
+		disable_timer(2);
+		reset_timer(2);
+		init_timer(2,1062*45);
+		enable_timer(2);	
+	paddle_center=paddle_x+19;
 		ball_center=ball_position[0]+2;
 		dist=(ball_center-paddle_center)/(float)21*5;
 		ball_movement[0]=dist;
-		ball_movement[1]*=-1;
+		if (ball_movement[0]==0){
+			if (paddle_center<ball_center){
+			ball_movement[0]=1;
+			}
+			else{
+				ball_movement[0]=-1;
+			}
+		}
+		if (dist<=3){
+			ball_movement[1]=-2;
+		}
+		else {
+			ball_movement[1]=-1;
+		}
 		if (current_score<=100){
 			current_score+=5;
 		}
@@ -64,7 +91,7 @@ void check_paddle(void){
 			current_score+=10;
 		}
 		sprintf(r,"%d", current_score);
-		GUI_Text(8,156,(uint8_t*) r, White, Black);
+		GUI_Text(8,155,(uint8_t*) r, White, Black);
 	}
 	return;
 }
@@ -72,29 +99,24 @@ void check_paddle(void){
 void check_end_game(void){
 	int i;
 	char r[]="";
-	int len_cs, len_rec;
-	char text1 []= "";
-	char text2 [] = "";
-	if (ball_position[1]>=300){
-		sprintf(r,"%d", current_score);
-		len_cs=strlen(r);
-		while (len_cs>0){
-			strcat(text1, " ");
-			len_cs--;
-		}
+	char newRec [] = "New record: ";
+	if (ball_position[1]>=300){	
 		sprintf(r,"%d", record);
-		len_rec=strlen(r);
-		while (len_rec>0){
-			strcat(text2, " ");
-			len_rec--;
-		}
+		LCD_DrawGameHBorder(233-11*strlen(r),8,234,8,12,Black);
+		sprintf(r,"%d", current_score);
+		LCD_DrawGameHBorder(8,155,100,155,12,Black);
 		flag_end_game=1;
 		disable_timer(0);
 		reset_timer(0);
-		GUI_Text(233-9*strlen(r),8,(uint8_t*) text2, White, Black);
-		GUI_Text(8,156,(uint8_t*) text1, White, Black);
 		if (current_score>record){
 			record=current_score;
+			sprintf(r,"%d", record);
+			strcat(newRec, r);
+			GUI_Text(88, 147, (uint8_t *) "You Lose", White, Black);
+			GUI_Text(60, 165, (uint8_t *) newRec, White, Black);
+		}
+		else{
+			GUI_Text(88, 155, (uint8_t *) "You Lose", White, Black);
 		}
 		current_score=0;
 		mean = 0x7FF;
@@ -107,24 +129,34 @@ void check_end_game(void){
 		ball_position[1]=157;
 		ball_movement[0]=-1;
 		ball_movement[1]=1;
-		GUI_Text(88, 155, (uint8_t *) "You Lose", White, Black);
+		paddle_x=100;
+		game_status=3;
 	}
 	return;
 }
 
 void move_ball(void){
 	char r[]="";
-	static int flag_lost = 0;
 	LCD_DrawGameHBorder(ball_position[0],ball_position[1],ball_position[0]+4,ball_position[1],5,Black);
 	sprintf(r,"%d", current_score);
-	if (ball_position[0]<8+strlen(r)*11 && ball_position[1]>=154 && ball_position[1]<=166){
-		GUI_Text(8,156,(uint8_t*) r, White, Black);
+	if (ball_position[0]<8+strlen(r)*11 && ball_position[1]>=154 && ball_position[1]<=168){
+		GUI_Text(8,155,(uint8_t*) r, White, Black);
 	}
 	sprintf(r,"%d", record);
 	if (ball_position[0]>233-11*strlen(r) && ball_position[1]>=5 && ball_position[1]<=19){
 		GUI_Text(233-9*strlen(r),8,(uint8_t*) r, White, Black);
 	}
-	//se ancora non ho perso
+	if(!flag_lost){
+		//controlla i margini destro e sinistro e nel caso riposiziona la palla
+	if (ball_position[0]+ball_movement[0]<5){
+		ball_position[0]=5;
+	}
+	else if (ball_position[0]+ball_movement[0]>230){
+		ball_position[0]=230;
+	}
+	else{
+		ball_position[0]+=ball_movement[0];
+	}
 	//se la palla deve andare oltre il bordo di sopra non farla andare, falla al più toccare
 	if (ball_position[1]+ball_movement[1]<5){
 		ball_position[1]=5;
@@ -133,8 +165,9 @@ void move_ball(void){
 		//se la palla deve andare oltre il bordo logico di sotto
 		
 		//controlla se in realtà andrebbe a toccare il paddle, se sì allora falle al più toccare il paddle
-		//MANCA IL CHECK SU BALL POSITION 0 E BALL MOVEMENT 0
-		if (!flag_lost && ((ball_position[0]+ball_movement[0]<paddle_x && ball_position[0]+ball_movement[0]+4>=paddle_x) || (ball_position[0]+ball_movement[0]>=paddle_x && ball_position[0]+ball_movement[0]+4<=paddle_x+39) || (ball_position[0]+ball_movement[0]<=paddle_x+39 && ball_position[0]+ball_movement[0]+4>paddle_x+39))){
+		if ((ball_position[0]<paddle_x && ball_position[0]+4>=paddle_x) || 
+			(ball_position[0]>=paddle_x && ball_position[0]+4<=paddle_x+39) || 
+		(ball_position[0]<=paddle_x+39 && ball_position[0]+4>paddle_x+39)){
 			ball_position[1]=273;
 		}
 		else{
@@ -148,15 +181,34 @@ void move_ball(void){
 		//altrimenti in generale sposta la palla sulla y
 		ball_position[1]+=ball_movement[1];
 	}
-	//controlla i margini destro e sinistro e nel caso riposiziona la palla
-	if (ball_position[0]+ball_movement[0]<5){
+	}
+	if (flag_lost){
+		ball_position[0]+=ball_movement[0];
+		ball_position[1]+=ball_movement[1];
+		if (ball_position[0]+4>=paddle_x && ball_position[0]+4<=paddle_x+10 && ball_position[1]>273 && ball_position[1]<=287){
+				ball_position[0]=paddle_x-5;
+				ball_movement[0]*=-1;
+		}
+		else if (ball_position[0]<=paddle_x+39 && ball_position[0]>=paddle_x+29 && ball_position[1]>273 && ball_position[1]<=287){
+			ball_position[0]=paddle_x+40;
+				ball_movement[0]*=-1;
+		}
+		if (ball_position[1]>=273){
+			if (ball_position[0]+ball_movement[0]<0){
+		ball_position[0]=0;
+	}
+	else if (ball_position[0]+ball_movement[0]>235){
+		ball_position[0]=235;
+	}
+		}
+		else{
+			if (ball_position[0]+ball_movement[0]<5){
 		ball_position[0]=5;
 	}
 	else if (ball_position[0]+ball_movement[0]>230){
 		ball_position[0]=230;
 	}
-	else{
-		ball_position[0]+=ball_movement[0];
+		}
 	}
 	LCD_DrawGameHBorder(ball_position[0],ball_position[1],ball_position[0]+4,ball_position[1],5,Green);
 	check_border();
@@ -210,7 +262,10 @@ void ADC_IRQHandler(void) {
 		if (diff>(float)2/100*analog_range_max){
 			pixels_range_start=(float)mean/analog_range_max*pixels_range_max;
 			
-		if (pixels_range_start<=paddle_x-40){
+		if (!(flag_lost && ((ball_position[0]<pixels_range_start && ball_position[0]+4>=pixels_range_start) || 
+			(ball_position[0]>=pixels_range_start && ball_position[0]+4<=pixels_range_start+39) || 
+		(ball_position[0]<=pixels_range_start+39 && ball_position[0]+4>pixels_range_start+39)) && ball_position[1]>273 && ball_position[1]<=287)){
+			if (pixels_range_start<=paddle_x-40){
 			LCD_DrawGameHBorder(paddle_x,278,paddle_x+39,278,10,Black); //Delete paddle
 			LCD_DrawGameHBorder(pixels_range_start, 278,pixels_range_start+39,278,10,Green);//paddle
 		}
@@ -229,6 +284,7 @@ void ADC_IRQHandler(void) {
 			LCD_DrawGameHBorder(pixels_range_start, 278,pixels_range_start+39,278,10,Green);//paddle
 		}
 		paddle_x=pixels_range_start;
+		}
 		last_mean=mean;
 		}
 		

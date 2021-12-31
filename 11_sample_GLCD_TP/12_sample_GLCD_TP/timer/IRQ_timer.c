@@ -14,6 +14,15 @@
 
 extern uint8_t *text;
 
+uint16_t SinTable[45] =                                       /*                      */
+{
+    410, 467, 523, 576, 627, 673, 714, 749, 778,
+    799, 813, 819, 817, 807, 789, 764, 732, 694, 
+    650, 602, 550, 495, 438, 381, 324, 270, 217,
+    169, 125, 87 , 55 , 30 , 12 , 2  , 0  , 6  ,   
+    20 , 41 , 70 , 105, 146, 193, 243, 297, 353
+};
+
 /******************************************************************************
 ** Function name:		Timer0_IRQHandler
 **
@@ -79,6 +88,30 @@ void TIMER1_IRQHandler (void)
 		}
 	}
   LPC_TIM1->IR = 1;			/* clear interrupt flag */
+  return;
+}
+
+void TIMER2_IRQHandler (void)
+{
+	static int ticks=0;
+	static int end_sound=0;
+	disable_timer(0);
+	reset_timer(0);
+	/* DAC management */	
+	LPC_DAC->DACR = SinTable[ticks]<<6;
+	ticks++;
+	end_sound++;
+	if(ticks==45) {
+		ticks=0;
+	}
+	if (end_sound==47){
+		disable_timer(2);
+		ticks=0;
+		end_sound=0;
+		init_timer(0,0x618A); //1 ms
+		enable_timer(0);
+	}
+  LPC_TIM2->IR = 1;			/* clear interrupt flag */
   return;
 }
 

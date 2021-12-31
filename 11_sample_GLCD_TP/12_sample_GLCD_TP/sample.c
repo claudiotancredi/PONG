@@ -40,10 +40,10 @@ int main(void)
   SystemInit();  												/* System Initialization (i.e., PLL)  */
 	
   LCD_Initialization();
-	init_RIT(0x004C4B40);
+	init_RIT(0x004C4B40); //50 ms
 	BUTTON_init();	
 	
-	LCD_Clear(Black);
+	LCD_Clear(Black); 
 	GUI_Text(104, 147, (uint8_t *) "PONG", White, Black);
 	GUI_Text(44, 165, (uint8_t *) "Press KEY1 to start", White, Black);
 	
@@ -54,6 +54,10 @@ int main(void)
 	
 	LPC_SC->PCON |= 0x1;									/* power-down	mode										*/
 	LPC_SC->PCON &= ~(0x2);						
+	
+	LPC_PINCON->PINSEL1 |= (1<<21);
+	LPC_PINCON->PINSEL1 &= ~(1<<20);
+	LPC_GPIO0->FIODIR |= (1<<26);
 	
   while (1)	
   {
