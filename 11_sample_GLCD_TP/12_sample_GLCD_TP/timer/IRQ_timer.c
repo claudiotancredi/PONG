@@ -13,6 +13,7 @@
 #include "../adc/adc.h"
 
 extern uint8_t *text;
+extern int game_status;
 
 uint16_t SinTable[45] =                                       /*                      */
 {
@@ -70,7 +71,9 @@ void TIMER1_IRQHandler (void)
 				break;
 			case 1:GUI_Text(116, 156, text1, White, Black);
 				break;
-			case 0:GUI_Text(116, 156, textempty, White, Black);
+			case 0:
+				GUI_Text(116, 156, textempty, White, Black);
+			game_status=1;
 				break;
 			default:
 				break;
