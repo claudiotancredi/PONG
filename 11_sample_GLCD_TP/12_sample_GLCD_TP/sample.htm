@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\sample.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\sample.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Jan 03 18:49:30 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Jan 03 22:52:41 2022
 <BR><P>
 <H3>Maximum Stack Usage =        224 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -464,6 +464,7 @@ Global Symbols
 <P><STRONG><a name="[50]"></a>enable_timer</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, lib_timer.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;restartPaddleAndBall
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_IRQHandler
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle_after_loss
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_border_to_update_direction
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_game
@@ -473,6 +474,7 @@ Global Symbols
 
 <P><STRONG><a name="[4d]"></a>disable_timer</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, lib_timer.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stopPaddleAndBallAndSound
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle_after_loss
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_end_game
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_border_to_update_direction
@@ -483,6 +485,7 @@ Global Symbols
 
 <P><STRONG><a name="[4e]"></a>reset_timer</STRONG> (Thumb, 50 bytes, Stack size 0 bytes, lib_timer.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stopPaddleAndBallAndSound
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle_after_loss
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_end_game
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_border_to_update_direction
@@ -496,7 +499,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_EnableIRQ
 </UL>
-<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle
+<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle_after_loss
+<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_border_to_update_direction
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_game
 <LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER1_IRQHandler
@@ -557,7 +561,7 @@ Global Symbols
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;drawPaddle
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;drawGameBordersAndBall
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_paddle
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remove_scores_if_ball_overlaps
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_end_game
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_game
@@ -670,7 +674,7 @@ Global Symbols
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_timer
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_timer
 </UL>
-<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
+<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
 </UL>
 
 <P><STRONG><a name="[69]"></a>check_paddle</STRONG> (Thumb, 304 bytes, Stack size 32 bytes, irq_adc.o(.text))
@@ -689,7 +693,7 @@ Global Symbols
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_timer
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Text
 </UL>
-<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
+<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
 </UL>
 
 <P><STRONG><a name="[70]"></a>check_end_game</STRONG> (Thumb, 306 bytes, Stack size 40 bytes, irq_adc.o(.text))
@@ -704,7 +708,7 @@ Global Symbols
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_timer
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Text
 </UL>
-<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
+<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
 </UL>
 
 <P><STRONG><a name="[73]"></a>remove_scores_if_ball_overlaps</STRONG> (Thumb, 534 bytes, Stack size 24 bytes, irq_adc.o(.text))
@@ -716,33 +720,40 @@ Global Symbols
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_DrawGameHBorder
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Text
 </UL>
-<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
+<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
 </UL>
 
-<P><STRONG><a name="[75]"></a>check_left_right_margins</STRONG> (Thumb, 60 bytes, Stack size 0 bytes, irq_adc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
+<P><STRONG><a name="[76]"></a>check_left_right_margins</STRONG> (Thumb, 60 bytes, Stack size 0 bytes, irq_adc.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
 </UL>
 
-<P><STRONG><a name="[76]"></a>check_top_margin_bottom_paddle</STRONG> (Thumb, 170 bytes, Stack size 0 bytes, irq_adc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
+<P><STRONG><a name="[77]"></a>check_top_margin_bottom_paddle</STRONG> (Thumb, 170 bytes, Stack size 0 bytes, irq_adc.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
 </UL>
 
-<P><STRONG><a name="[77]"></a>check_paddle_after_loss</STRONG> (Thumb, 144 bytes, Stack size 0 bytes, irq_adc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
+<P><STRONG><a name="[74]"></a>check_paddle_after_loss</STRONG> (Thumb, 214 bytes, Stack size 8 bytes, irq_adc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = check_paddle_after_loss &rArr; init_timer
+</UL>
+<BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_timer
+<LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_timer
+<LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_timer
+<LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_timer
+</UL>
+<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
 </UL>
 
 <P><STRONG><a name="[78]"></a>check_side_borders_after_loss</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, irq_adc.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
+<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
 </UL>
 
-<P><STRONG><a name="[74]"></a>move_ball</STRONG> (Thumb, 156 bytes, Stack size 8 bytes, irq_adc.o(.text))
+<P><STRONG><a name="[75]"></a>move_ball</STRONG> (Thumb, 156 bytes, Stack size 8 bytes, irq_adc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 184 + Unknown Stack Size
 <LI>Call Chain = move_ball &rArr; check_end_game &rArr; GUI_Text &rArr; PutChar &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_side_borders_after_loss
-<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle_after_loss
-<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_top_margin_bottom_paddle
-<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_left_right_margins
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle_after_loss
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_top_margin_bottom_paddle
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_left_right_margins
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remove_scores_if_ball_overlaps
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_end_game
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_paddle
@@ -756,7 +767,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_IRQHandler
 </UL>
 
-<P><STRONG><a name="[79]"></a>move_paddle</STRONG> (Thumb, 420 bytes, Stack size 16 bytes, irq_adc.o(.text))
+<P><STRONG><a name="[79]"></a>move_paddle</STRONG> (Thumb, 426 bytes, Stack size 16 bytes, irq_adc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = move_paddle &rArr; LCD_DrawGameHBorder &rArr; LCD_DrawLine &rArr; LCD_SetPoint &rArr; LCD_SetCursor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_DrawGameHBorder
@@ -777,7 +788,7 @@ Global Symbols
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_paddle
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeDifference
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_ball
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_timer
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_lpc17xx.o(RESET)

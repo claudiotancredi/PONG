@@ -265,12 +265,28 @@
 		if (ball_position[0]+4>=paddle_x-1 && ball_position[0]+4<=paddle_x+10 && ball_position[1]>273 && ball_position[1]<=287){
 				//verifica che la palla tocchi il paddle da sinistra o lo intersechi da sinistra, se ciò accade fai in modo che 
 			//la tocchi senza intersecarla e cambi la direzione lungo l'asse x
+					//Se la palla tocca il paddle disabilita il timer 0
+			disable_timer(0);
+			reset_timer(0);
+			//setta il flag di sound
+		sound=1;
+			//inizializza ed abilita il timer 2 che riproduce il suono
+			init_timer(2,1062*12);
+			enable_timer(2);	
 					ball_position[0]=paddle_x-5;
 					ball_movement[0]*=-1;
 			}
 			else if (ball_position[0]<=paddle_x+40 && ball_position[0]>=paddle_x+29 && ball_position[1]>273 && ball_position[1]<=287){
 				//verifica che la palla tocchi il paddle da destra o lo intersechi da destra, se ciò accade fai in modo che 
 			//la tocchi senza intersecarla e cambi la direzione lungo l'asse x
+				//Se la palla tocca il paddle disabilita il timer 0
+			disable_timer(0);
+			reset_timer(0);
+			//setta il flag di sound
+		sound=1;
+			//inizializza ed abilita il timer 2 che riproduce il suono
+			init_timer(2,1062*12);
+			enable_timer(2);	
 				ball_position[0]=paddle_x+40;
 					ball_movement[0]*=-1;
 			}
