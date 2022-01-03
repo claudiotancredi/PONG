@@ -155,7 +155,6 @@ uint32_t init_timer ( uint8_t timer_num, uint32_t TimerInterval )
 	LPC_TIM0->MCR = 3;
 // </h>
 //*** <<< end of configuration section >>>    ***
-
 	NVIC_EnableIRQ(TIMER0_IRQn);
 	return (1);
   }
@@ -163,7 +162,6 @@ uint32_t init_timer ( uint8_t timer_num, uint32_t TimerInterval )
   {
 	LPC_TIM1->MR0 = TimerInterval;
 	LPC_TIM1->MCR = 3;				/* Interrupt and Reset on MR1 */
-
 	NVIC_EnableIRQ(TIMER1_IRQn);
 	return (1);
   }
@@ -171,7 +169,6 @@ uint32_t init_timer ( uint8_t timer_num, uint32_t TimerInterval )
   {
 	LPC_TIM2->MR0 = TimerInterval;
 	LPC_TIM2->MCR = 3;				/* Interrupt and Reset on MR1 */
-
 	NVIC_EnableIRQ(TIMER2_IRQn);
 	return (1);
   }

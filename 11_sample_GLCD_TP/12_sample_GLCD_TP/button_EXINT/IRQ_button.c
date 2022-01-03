@@ -6,38 +6,38 @@
 
 
 int button = -1;
-int game_status = 0; //0 means not started (or reset), 1 means started, 2 means paused, 3 means lose
-extern int paused;
 
 void EINT0_IRQHandler (void)	  	/* INT0														 */
 {		
-		NVIC_DisableIRQ(EINT0_IRQn);		/* disable Button interrupts			 */
-		button=0;
-		init_RIT(0x004C4B40); //50 ms
+	button=0;
+	enable_RIT();										/* enable RIT to count 50ms				 */
+		NVIC_DisableIRQ(EINT1_IRQn);		/* disable Button interrupts			 */
+	NVIC_DisableIRQ(EINT0_IRQn);
+	NVIC_DisableIRQ(EINT2_IRQn);
 	LPC_PINCON->PINSEL4    &= ~(1 << 20);     /* GPIO pin selection */
-		enable_RIT();										/* enable RIT to count 50ms				 */
 	LPC_SC->EXTINT &= (1 << 0);     /* clear pending interrupt         */
 }
 
 
 void EINT1_IRQHandler (void)	  	/* KEY1														 */
 {
+	button=1;
+	enable_RIT();										/* enable RIT to count 50ms				 */
 		NVIC_DisableIRQ(EINT1_IRQn);		/* disable Button interrupts			 */
-		button=1;
-		init_RIT(0x004C4B40); //50 ms
+	NVIC_DisableIRQ(EINT0_IRQn);
+	NVIC_DisableIRQ(EINT2_IRQn);
 	LPC_PINCON->PINSEL4    &= ~(1 << 22);     /* GPIO pin selection */
-		enable_RIT();										/* enable RIT to count 50ms				 */
 	LPC_SC->EXTINT &= (1 << 1);     /* clear pending interrupt         */
 }
 
 void EINT2_IRQHandler (void)	  	/* KEY2														 */
 {
-		NVIC_DisableIRQ(EINT2_IRQn);		/* disable Button interrupts			 */
-		paused=1;
-		button=2;
-		init_RIT(0x004C4B40); //50 ms
+	button=2;
+	enable_RIT();										/* enable RIT to count 50ms				 */
+		NVIC_DisableIRQ(EINT1_IRQn);		/* disable Button interrupts			 */
+	NVIC_DisableIRQ(EINT0_IRQn);
+	NVIC_DisableIRQ(EINT2_IRQn);
 	LPC_PINCON->PINSEL4    &= ~(1 << 24);     /* GPIO pin selection */
-		enable_RIT();										/* enable RIT to count 50ms				 */
   LPC_SC->EXTINT &= (1 << 2);     /* clear pending interrupt         */    
 }
 

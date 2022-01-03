@@ -504,10 +504,10 @@ void LCD_SetPoint(uint16_t Xpos,uint16_t Ypos,uint16_t point)
 	LCD_WriteReg(0x0022,point);
 }
 
-void LCD_DrawGameHBorder(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1 , int thickness, uint16_t color){
+void LCD_DrawGameHBorder(uint16_t x0, uint16_t y0, uint16_t x1, int thickness, uint16_t color){
 	int i;
 	for (i=0; i<thickness; i++){
-		LCD_DrawLine(x0,y0+i,x1,y1+i,color);
+		LCD_DrawLine(x0,y0+i,x1,y0+i,color);
 	}
 	return;
 }
@@ -518,7 +518,7 @@ void LCD_DrawGameVBorders(uint16_t x0, uint16_t y0, uint16_t y1, uint16_t x2, in
 			LCD_SetPoint(x0+j,y0+i,Red);
 		}
 		if (i==156){
-			LCD_DrawGameHBorder(ball_position[0],ball_position[1],ball_position[0]+4,ball_position[1],5,Green);
+			LCD_DrawGameHBorder(ball_position[0],ball_position[1],ball_position[0]+4,5,Green);
 		}
 		for (j=0; j<thickness; j++){
 			LCD_SetPoint(x2+j,y0+i,Red);

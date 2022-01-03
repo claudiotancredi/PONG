@@ -67,7 +67,6 @@ uint32_t init_RIT ( uint32_t RITInterval )
 	LPC_RIT->RICTRL    = (1<<1) |    // Enable clear on match	
 											 (1<<2) ;		 // Enable timer for debug	
 	LPC_RIT->RICOUNTER = 0;          // Set count value to 0
-	
 	NVIC_EnableIRQ(RIT_IRQn);
   return (0);
 }
