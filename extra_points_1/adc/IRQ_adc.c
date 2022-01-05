@@ -14,7 +14,7 @@
 	#include "../timer/timer.h"
 	#include <stdio.h>
 
-	int pixels_range_max = 199;
+	int pixels_range_max = 200;
 	unsigned short analog_range_max = 0xFFF;
 	extern int paddle_x;
 	unsigned short values[] = {0x7FF,0x7FF,0x7FF,0x7FF,0x7FF}; //sembra quasi non servire a nulla, anche se metto un solo valore
@@ -109,7 +109,7 @@
 			}
 			//Se dist è tra 0 e 3
 			if (dist<=3){
-				//setta il movimento sull'asse y a -2
+				//setta il movimento sull'asse y a -3
 				ball_movement[1]=-3;
 			}
 			else {
