@@ -166,7 +166,7 @@
 				LCD_DrawGameHBorder(233-10*4,155,234,14,Black);
 			}
 		}
-		else if (ball_position[1]<=20){
+		else if (ball_position[1]<=16){
 			game_status=4;
 			current_score_p1+=1;
 			if (current_score_p1==5){
@@ -181,7 +181,7 @@
 				LCD_DrawGameHBorder(233-10*4,155,234,14,Black);
 			}
 		}
-		if (current_score_p1<5 && current_score_p2<5 && (ball_position[1]>=300 || ball_position[1]<=20)){
+		if (current_score_p1<5 && current_score_p2<5 && (ball_position[1]>=300 || ball_position[1]<=16)){
 			disable_timer(0);
 			reset_timer(0);
 			last_flag_score_p1_zone=0;
@@ -198,7 +198,7 @@
 			flag_lost_p2=0;
 			
 		}
-		if ((current_score_p1==5 || current_score_p2==5) && (ball_position[1]>=300 || ball_position[1]<=20)){
+		if ((current_score_p1==5 || current_score_p2==5) && (ball_position[1]>=300 || ball_position[1]<=16)){
 			flag_end_game=1;
 			last_flag_score_p1_zone=0;
 			last_flag_score_p2_zone=1;
@@ -227,7 +227,7 @@
 			ball_movement[1]=2;
 			last_mean = 0x7FF;
 			paddle_x_p1=100;
-			paddle_x_p2=(rand()%201)+5;
+			paddle_x_p2=(rand()%191)+5;
 			game_status=3;
 		}
 		else{
@@ -370,7 +370,7 @@
 				ball_position[0]=paddle_x_p1+40;
 					ball_movement[0]*=-1;
 			}
-		if (ball_position[0]+4>=paddle_x_p2-1 && ball_position[0]+4<=paddle_x_p2+10 && ball_position[1]>31 && ball_position[1]<=41){
+		if (ball_position[0]+4>=paddle_x_p2-1 && ball_position[0]+4<=paddle_x_p2+10 && ball_position[1]>27 && ball_position[1]<=41){
 				//verifica che la palla tocchi il paddle superiore da sinistra o lo intersechi da sinistra, se ciò accade fai in modo che 
 			//la tocchi senza intersecarla e cambi la direzione lungo l'asse x
 					//Se la palla tocca il paddle disabilita il timer 0
@@ -384,7 +384,7 @@
 					ball_position[0]=paddle_x_p2-5;
 					ball_movement[0]*=-1;
 			}
-			else if (ball_position[0]<=paddle_x_p2+40 && ball_position[0]>=paddle_x_p2+29 && ball_position[1]>31 && ball_position[1]<=41){
+			else if (ball_position[0]<=paddle_x_p2+40 && ball_position[0]>=paddle_x_p2+29 && ball_position[1]>27 && ball_position[1]<=41){
 				//verifica che la palla tocchi il paddle superiore da destra o lo intersechi da destra, se ciò accade fai in modo che 
 			//la tocchi senza intersecarla e cambi la direzione lungo l'asse x
 				//Se la palla tocca il paddle disabilita il timer 0

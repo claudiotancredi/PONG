@@ -517,7 +517,7 @@ void LCD_DrawGameHBorder(uint16_t x0, uint16_t y0, uint16_t x1, int thickness, u
 }
 void LCD_DrawGameVBorders(uint16_t x0, uint16_t y0, uint16_t y1, uint16_t x2, int thickness, uint16_t color){
 	int i,j;
-	paddle_x_p2=(rand()%201)+5; //random initial position for the paddle of player 2 to vary the game
+	paddle_x_p2=(rand()%191)+5; //random initial position for the paddle of player 2 to vary the game
 	for (i=0; i<y1-y0; i++){
 		for (j=0; j<thickness; j++){
 			LCD_SetPoint(x0+j,y0+i,Red);
