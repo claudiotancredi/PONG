@@ -518,6 +518,10 @@ void LCD_DrawGameHBorder(uint16_t x0, uint16_t y0, uint16_t x1, int thickness, u
 void LCD_DrawGameVBorders(uint16_t x0, uint16_t y0, uint16_t y1, uint16_t x2, int thickness, uint16_t color){
 	int i,j;
 	paddle_x_p2=(rand()%191)+5; //random initial position for the paddle of player 2 to vary the game
+	//Actually, rand does not give random values at every reboot, because the seed is always the same, so I have random values
+	//only during the time that the board is functioning. If I reset/turn off and on the board, the positions will be the same as before.
+	//I could have solved the problem by initializing the seed for rand with srand(time(NULL)) but that would have required to include
+	//the time library, which I cannot do because it would lead to memory issues
 	for (i=0; i<y1-y0; i++){
 		for (j=0; j<thickness; j++){
 			LCD_SetPoint(x0+j,y0+i,Red);
